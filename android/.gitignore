@@ -1,0 +1,16 @@
+# Se versionan gradlew / gradlew.bat / gradle-wrapper.jar para builds
+# reproducibles (el wrapper se regenera, pero fijarlo evita sorpresas).
+/.gradle
+/captures/
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Nunca publicar el keystore ni la config de firma.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+**/*.keystore
+**/*.jks
+
+# Firebase / Google Services: se provee localmente o vía secret de CI.
+**/google-services.json
