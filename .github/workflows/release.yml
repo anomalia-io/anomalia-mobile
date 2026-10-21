@@ -1,0 +1,46 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.2"
+          channel: stable
+
+      - name: Decode keystore
+        run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > android/app/release-keystore.jks
+
+      - name: Write key.properties
+        run: |
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.RELEASE_STORE_PASSWORD }}
+          keyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
+          keyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
+          storeFile=${{ github.workspace }}/android/app/release-keystore.jks
+          EOF
+
+      - name: Pub get
+        run: flutter pub get
+      - name: Build release APK
+        run: flutter build apk --release
+
+      - name: Checksum
+        run: sha256sum build/app/outputs/flutter-apk/app-release.apk > checksums.txt
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --repo anomalia-io/anomalia-mobile \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes \
+            build/app/outputs/flutter-apk/app-release.apk \
+            checksums.txt
