@@ -23,8 +23,6 @@ class _AlertsScreenState extends State<AlertsScreen>
 
   List<String> _userRoles = const [];
   List<String> _userProfiles = const [];
-  String _username = '';
-  String _userRole = '';
   List<Map<String, dynamic>> _tenants = const [];
   bool _hasAccessAlerts = false;
 
@@ -62,7 +60,6 @@ class _AlertsScreenState extends State<AlertsScreen>
 
   Future<void> _loadUserContext() async {
     final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username') ?? 'Usuario';
     final role = prefs.getString('user_role') ?? 'user';
     try {
       final userData = await ApiService.getCurrentUser();
@@ -80,8 +77,6 @@ class _AlertsScreenState extends State<AlertsScreen>
           admin || profiles.contains('access_alerts') || roles.contains('admin');
       final tenants = await ApiService.getMyTenants();
       setState(() {
-        _username = username;
-        _userRole = roleStr;
         _userRoles = roles;
         _userProfiles = profiles;
         _tenants = tenants;
@@ -90,8 +85,6 @@ class _AlertsScreenState extends State<AlertsScreen>
     } catch (e) {
       final admin = role.toLowerCase() == 'admin';
       setState(() {
-        _username = username;
-        _userRole = role;
         _userRoles = admin ? ['admin'] : [role];
         _hasAccessAlerts = admin;
       });
