@@ -44,8 +44,8 @@ flutter test --dart-define=FLUTTER_TEST=true
 ## Configuración del servidor
 
 La app arranca sin servidor configurado. Ingresá la URL del gateway, p. ej.:
-`https://192.168.1.27/api/v1` (o escaneá el QR de la consola web). También podés
-pre-cargarla al compilar: `--dart-define=API_BASE_URL=https://192.168.1.27/api/v1`.
+`https://mi-servidor.example.com/api/v1` (o escaneá el QR de la consola web). También podés
+pre-cargarla al compilar: `--dart-define=API_BASE_URL=https://mi-servidor.example.com/api/v1`.
 
 ## Build
 
@@ -54,7 +54,18 @@ flutter build apk --debug     # local / testing
 flutter build apk --release   # requiere keystore de firma (ver CONTRIBUTING)
 ```
 
-Guía de prueba en celular real: [`../anomalia-meta/docs/mobile/testing-on-device.md`](../anomalia-meta/docs/mobile/testing-on-device.md).
+## Descargar el APK
+
+Las versiones firmadas se publican en
+[Releases](https://github.com/anomalia-io/anomalia-mobile/releases). Cada release incluye el
+`.apk` y un `checksums.txt` (SHA-256) para verificar integridad. Ver
+[docs/releases.md](docs/releases.md) para el detalle (verificación de firma, builds locales).
+
+## Documentación
+
+- [Aplicación Flutter](docs/flutter-app.md) — características, configuración de servidor, OIDC.
+- [Prueba en un celular real](docs/testing-on-device.md) — debug vs release, adb, SSO.
+- [Releases y APK](docs/releases.md) — descarga, verificación y builds locales.
 
 ## Licencia
 

@@ -55,3 +55,6 @@ app.*.map.json
 key.properties
 google-services.json
 
+# Config local de opencode (contiene rutas absolutas; no versionar)
+opencode.json
+
