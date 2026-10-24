@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.anomalia.anomaliagw_mobile"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -46,4 +46,14 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+android {
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
