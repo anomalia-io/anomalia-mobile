@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.anomalia.anomaliagw_mobile"
-    compileSdk = 36
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
