@@ -34,7 +34,7 @@ class _AnomaliaAppState extends State<AnomaliaApp> {
 
   Future<void> _initDeepLinks() async {
     // Link inicial (app abierta desde cero por el callback OIDC).
-    final initial = await _appLinks.getInitialAppLink();
+    final initial = await _appLinks.getInitialLink();
     if (initial != null) {
       await _handleCallback(initial);
     }
