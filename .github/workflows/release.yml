@@ -34,8 +34,12 @@ jobs:
       - name: Build release APK
         run: flutter build apk --release
 
+      - name: Rename APK
+        run: |
+          cp build/app/outputs/flutter-apk/app-release.apk anomalia.apk
+
       - name: Checksum
-        run: sha256sum build/app/outputs/flutter-apk/app-release.apk > checksums.txt
+        run: sha256sum anomalia.apk > checksums.txt
 
       - name: Create release
         env:
@@ -45,5 +49,5 @@ jobs:
             --repo anomalia-io/anomalia-mobile \
             --title "${GITHUB_REF_NAME}" \
             --generate-notes \
-            build/app/outputs/flutter-apk/app-release.apk \
+            anomalia.apk \
             checksums.txt

@@ -1,71 +1,36 @@
 # anomalia-mobile
 
-Aplicación **Flutter** (Android) de **Anomalia**: consulta de alertas enriquecidas por IA, con
-autenticación OIDC y configuración de servidor en runtime.
+**Anomalia Mobile** es el complemento móvil oficial para Android de la plataforma **Anomalía**. Su función principal es permitir la recepción y consulta en tiempo real de alertas enriquecidas por Inteligencia Artificial generadas por el sistema.
 
-## Stack
+## Características Principales
 
-- **Flutter** / **Dart** `^3.13.2` (Android principal; iOS/web/Linux/macOS/Windows soportados)
-- **http**, **shared_preferences**, **url_launcher** (OIDC vía navegador), **app_links** (deep links)
-- **firebase_core** / **firebase_messaging** / **flutter_local_notifications** (push FCM, inactivo sin `google-services.json`)
+- **Recepción de Alertas**: Visualización rápida del listado de alertas recientes e historial con filtros y detalles avanzados.
+- **Notificaciones Push (FCM)**: Integración con Firebase Cloud Messaging para notificar al instante en el dispositivo cuando ocurre una incidencia.
+- **Configuración Rápida por Escaneo de QR**: En el primer arranque, la aplicación permite escribir la URL del servidor manualmente o **escanear directamente el código QR** provisto por la interfaz web de Anomalía para una autoconfiguración inmediata.
+- **Autenticación OIDC / SSO**: Soporte para inicio de sesión seguro integrado con el gateway.
 
-## Características
+## Configuración del Servidor
 
-- Login local y **OIDC** (modos `local`, `local_only`, `hybrid`, `oidc_only`)
-- Configuración del servidor en runtime (pantalla `ServerConfigScreen`, URL vacía por defecto; se preconfigura con el **QR de la web**)
-- Listado de alertas (recientes + historial) con filtros, paginación y override de severidad
-- Push FCM (requiere `google-services.json`; sin él la app funciona igual)
+En el primer inicio, la app solicitará configurar la URL del gateway del sistema:
+- **Opción manual**: Ingresando la URL (ej. `https://192.168.1.X/api/v1`).
+- **Opción con QR**: Tocando el botón **"Escanear QR"** para capturar con la cámara el código QR expuesto en la consola web de Anomalía.
 
-## Estructura
+## Descargar la Aplicación
 
-```
-lib/
-  main.dart                 # home, deep links (anomalia://callback, anomalia://config)
-  screens/                  # login, alerts, server_config
-  services/                 # api_service, notification_service
-  models/                   # alert_model
-android/ ios/ linux/ macos/ windows/ web/
-assets/ test/
-```
+Las versiones firmadas y listas para instalar (`anomalia.apk`) se publican automáticamente en la sección de [Releases](https://github.com/anomalia-io/anomalia-mobile/releases), junto a su respectivo archivo `checksums.txt` (SHA-256) para verificar la integridad del archivo.
 
-## Requisitos
+## Stack Tecnológico
 
-- Flutter SDK `^3.13.2`
-- Android SDK para builds Android
-
-## Comandos
-
-```bash
-flutter pub get
-flutter analyze
-flutter test --dart-define=FLUTTER_TEST=true
-```
-
-## Configuración del servidor
-
-La app arranca sin servidor configurado. Ingresá la URL del gateway, p. ej.:
-`https://mi-servidor.example.com/api/v1` (o escaneá el QR de la consola web). También podés
-pre-cargarla al compilar: `--dart-define=API_BASE_URL=https://mi-servidor.example.com/api/v1`.
-
-## Build
-
-```bash
-flutter build apk --debug     # local / testing
-flutter build apk --release   # requiere keystore de firma (ver CONTRIBUTING)
-```
-
-## Descargar el APK
-
-Las versiones firmadas se publican en
-[Releases](https://github.com/anomalia-io/anomalia-mobile/releases). Cada release incluye el
-`.apk` y un `checksums.txt` (SHA-256) para verificar integridad. Ver
-[docs/releases.md](docs/releases.md) para el detalle (verificación de firma, builds locales).
+- **Flutter / Dart** (`^3.13.2`)
+- **mobile_scanner** (Escáner de códigos QR)
+- **firebase_messaging** / **flutter_local_notifications** (Notificaciones push)
+- **http**, **shared_preferences**, **url_launcher**, **app_links**
 
 ## Documentación
 
-- [Aplicación Flutter](docs/flutter-app.md) — características, configuración de servidor, OIDC.
-- [Prueba en un celular real](docs/testing-on-device.md) — debug vs release, adb, SSO.
-- [Releases y APK](docs/releases.md) — descarga, verificación y builds locales.
+- [Aplicación Flutter](docs/flutter-app.md)
+- [Prueba en un celular real](docs/testing-on-device.md)
+- [Releases y APK](docs/releases.md)
 
 ## Licencia
 
