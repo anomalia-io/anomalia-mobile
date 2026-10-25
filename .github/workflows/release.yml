@@ -47,7 +47,10 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" \
             --repo anomalia-io/anomalia-mobile \
-            --title "${GITHUB_REF_NAME}" \
-            --generate-notes \
+            --title "Anomalia Mobile ${GITHUB_REF_NAME}" \
+            --notes "- Anomalia Mobile: complemento móvil oficial para Android de la plataforma Anomalía.
+            - Diseñado para la recepción y consulta en tiempo real de alertas enriquecidas por Inteligencia Artificial.
+            - Características: Recepción de alertas, Notificaciones Push (FCM), configuración rápida por escaneo de QR y autenticación OIDC/SSO.
+            - Archivos: anomalia.apk y checksums.txt." \
             anomalia.apk \
             checksums.txt
