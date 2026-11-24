@@ -90,4 +90,5 @@ flutter run -d android                  # en dispositivo/emulador Android
 
 ### 📄 Licencia
 
-[Apache-2.0](./LICENSE)
+- Código: [Apache-2.0](./LICENSE)
+- Documentación: [CC BY-SA 4.0](./LICENSE-DOCS)

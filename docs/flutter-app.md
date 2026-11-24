@@ -2,10 +2,14 @@
 
 La aplicación móvil desarrollada en **Flutter** permite a los operadores recibir las alertas analizadas por la IA y consultar su historial.
 
-> **Push (FCM) inactivas por defecto.** La app funciona sin `google-services.json`: al no
-> existir, `Firebase.initializeApp()` falla de forma controlada y `notification_service.dart`
-> deja `_fcmAvailable=false`, por lo que el registro de dispositivo (`registerDeviceIfPossible`)
-> retorna temprano. Al agregar `google-services.json` en `android/app/`, FCM se activa solo.
+> **Push (FCM) inactivas hasta configurar ambas puntas.** La app funciona sin
+> `google-services.json`: al no existir, `Firebase.initializeApp()` falla de forma controlada y
+> `notification_service.dart` deja `_fcmAvailable=false`, por lo que el registro de dispositivo
+> (`registerDeviceIfPossible`) retorna temprano. Para recibir push hacen falta el
+> `google-services.json` de Android en `android/app/` (ignorado por git; paquete
+> `com.anomalia.anomaliagw_mobile`) **y** que el backend tenga cargada la service account JSON de
+> Firebase con `push_enabled=true`. iOS no tiene `GoogleService-Info.plist` ni setup de Firebase:
+> no está listo para release.
 
 ## Características
 - Autenticación OIDC abriendo el navegador externo con `url_launcher`.
@@ -41,6 +45,29 @@ al deep link `anomalia://callback?code=…&state=…`, capturado en `main.dart` 
 El esquema `anomalia` debe estar declarado en `AndroidManifest.xml`
 (intent-filter `VIEW`/`BROWSABLE`) y en `ios/Runner/Info.plist`
 (`CFBundleURLTypes`).
+
+## Red, TLS y QR
+
+El celular y el host deben estar en la misma LAN. El deploy autofirmado usa por defecto la
+**IP LAN del backend** como CN/SAN (además de `anomalia.local`, `localhost` y `127.0.0.1`),
+así que configurá `https://<IP_LAN>/api/v1`. Si desplegaste con `--hostname`, usá ese nombre y
+verificá que el SAN lo cubra. El QR codifica `anomalia://config?base_url=<origin>` y usa
+`window.location.origin` de la web: abrí el panel con la IP (o el hostname provisto) para que el
+QR apunte a la dirección correcta.
+
+Los builds debug (`flutter run`, `flutter build apk --debug`) aceptan la CA local mediante
+`badCertificateCallback` en `kDebugMode`. Los builds release usan TLS estricto: la CA local debe
+ estar instalada y confiada en el dispositivo. El proyecto no declara una configuración de red
+ de Android; no hay un mecanismo de configuración adicional más allá de la CA y el callback de
+ debug.
+
+## Versiones y comandos
+
+- Flutter 3.47.2 en CI, Dart `^3.13.2` (`pubspec.yaml`).
+- `flutter pub get`
+- `flutter analyze --no-fatal-infos`
+- `flutter test --dart-define=FLUTTER_TEST=true`
+- `flutter build apk --debug` / `flutter build apk --release`
 
 ## Pruebas
 - Unitarias: `flutter test --dart-define=FLUTTER_TEST=true`.
