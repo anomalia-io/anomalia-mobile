@@ -72,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await prefs.setString('user_role', role);
       await prefs.setString('username', usernameResponse);
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('¡Bienvenido, $usernameResponse ($role)!')),
       );
@@ -82,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await NotificationService.instance.registerDeviceIfPossible();
       } catch (_) {}
 
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

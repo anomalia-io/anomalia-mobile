@@ -368,6 +368,7 @@ class _AlertsScreenState extends State<AlertsScreen>
                               if (await canLaunchUrl(uri)) {
                                 await launchUrl(uri, mode: LaunchMode.externalApplication);
                               } else {
+                                if (!context.mounted) return;
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('No se pudo abrir el enlace'),
@@ -394,7 +395,7 @@ class _AlertsScreenState extends State<AlertsScreen>
   Widget _chip(String text, Color bg) {
     return Chip(
       label: Text(text, style: const TextStyle(fontSize: 11)),
-      backgroundColor: bg.withOpacity(0.2),
+      backgroundColor: bg.withValues(alpha: 0.2),
       visualDensity: VisualDensity.compact,
     );
   }
@@ -511,7 +512,7 @@ class _AlertsScreenState extends State<AlertsScreen>
                       children: [
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: _historyStatus,
+                            initialValue: _historyStatus,
                             decoration: const InputDecoration(labelText: 'Estado'),
                             items: const [
                               DropdownMenuItem(value: null, child: Text('Todos')),
@@ -526,7 +527,7 @@ class _AlertsScreenState extends State<AlertsScreen>
                         const SizedBox(width: 8),
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: _historyTenantId,
+                            initialValue: _historyTenantId,
                             decoration: const InputDecoration(labelText: 'Tenant'),
                             items: <DropdownMenuItem<String>>[
                               const DropdownMenuItem(value: null, child: Text('Todos')),
